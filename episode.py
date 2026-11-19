@@ -162,9 +162,9 @@ def speak(script, out_path):
     print("4/4 Recording voices...")
     lines = [l.strip() for l in script.splitlines() if re.match(rf"^({H1}|{H2}):", l.strip())]
     chunks, cur = [], []
-    for l in lines:  # ~1 minute per TTS call keeps each request well under the model's output limit
+    for l in lines:  # ~2.5 minutes per TTS call (2 calls per episode) keeps each request well under the model's output limit
         cur.append(l)
-        if sum(len(x) for x in cur) > 900:
+        if sum(len(x) for x in cur) > 2600:
             chunks.append(cur); cur = []
     if cur:
         chunks.append(cur)

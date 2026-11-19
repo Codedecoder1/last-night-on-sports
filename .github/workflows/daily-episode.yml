@@ -2,7 +2,7 @@ name: Daily episode
 
 on:
   schedule:
-    - cron: "0 10 * * *"   # 10:00 UTC = 2 AM Pacific in winter (3 AM in summer)
+    - cron: "0 9 * * *"    # 09:00 UTC = 1 AM Pacific in winter (2 AM in summer)
   workflow_dispatch:        # "Run workflow" button for manual runs
     inputs:
       date:
