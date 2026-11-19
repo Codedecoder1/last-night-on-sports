@@ -4,6 +4,10 @@ on:
   schedule:
     - cron: "0 10 * * *"   # 10:00 UTC = 2 AM Pacific in winter (3 AM in summer)
   workflow_dispatch:        # "Run workflow" button for manual runs
+    inputs:
+      date:
+        description: "Game date YYYY-MM-DD (blank = yesterday)"
+        required: false
 
 permissions:
   contents: write
@@ -25,7 +29,7 @@ jobs:
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
         run: |
           touch .env
-          python -u episode.py
+          python -u episode.py ${{ inputs.date }}
       - name: Convert to MP3
         run: |
           for f in episodes/*.wav; do
