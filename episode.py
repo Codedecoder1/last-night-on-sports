@@ -46,7 +46,7 @@ def claude(prompt, system="", search=False, max_tokens=20000):
     body = {"model": CLAUDE_MODEL, "max_tokens": max_tokens, "system": system,
             "messages": [{"role": "user", "content": prompt}]}
     if search:
-        body["tools"] = [{"type": "web_search_20250305", "name": "web_search", "max_uses": 15}]
+        body["tools"] = [{"type": "web_search_20250305", "name": "web_search", "max_uses": 6}]
     r = http_json("https://api.anthropic.com/v1/messages", body,
                   {"x-api-key": os.environ["ANTHROPIC_API_KEY"], "anthropic-version": "2023-06-01"})
     u = r["usage"]
@@ -81,6 +81,9 @@ def research(day):
    Islanders, Liberty, NYCFC, Red Bulls) whenever they played. Note top storylines (injuries, trades).
 2. NEW YORK: today's NYC weather forecast and 1-2 big local news items.
 3. TOMORROW: notable games scheduled for the next day.
+
+SEARCH BUDGET: you have at most 6 searches. Use broad roundups: one scoreboard/recap page per league
+(e.g. "NBA scores {day:%B %d %Y}", "NHL scores {day:%B %d %Y}"), not one search per game.
 
 DATE CHECK (critical): only use results from games played on {day:%B %d, %Y}, the {day.year} season/year.
 Ignore articles from the same day in other years, and older or newer games. If a source's date is unclear,
