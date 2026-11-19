@@ -1,0 +1,42 @@
+name: Daily episode
+
+on:
+  schedule:
+    - cron: "0 10 * * *"   # 10:00 UTC = 2 AM Pacific in winter (3 AM in summer)
+  workflow_dispatch:        # "Run workflow" button for manual runs
+
+permissions:
+  contents: write
+
+concurrency: daily-episode
+
+jobs:
+  episode:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Make episode
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+        run: |
+          touch .env
+          python -u episode.py
+      - name: Convert to MP3
+        run: |
+          for f in episodes/*.wav; do
+            ffmpeg -y -loglevel error -i "$f" -codec:a libmp3lame -b:a 96k "${f%.wav}.mp3"
+          done
+      - name: Update podcast feed
+        run: python feed.py
+      - name: Save episode to repo
+        run: |
+          git config user.name "Last Night on Sports bot"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add episodes/*.mp3 episodes/*.txt episodes/*.json feed.xml
+          git commit -m "Episode $(date -u +%F)" || echo "nothing new"
+          git push

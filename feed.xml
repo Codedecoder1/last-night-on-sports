@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0" xmlns:itunes="http://www.itunes.com/dtds/podcast-1.0.dtd" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Last Night On Sports</title>
+    <link>https://codedecoder1.github.io/last-night-on-sports/</link>
+    <atom:link href="https://codedecoder1.github.io/last-night-on-sports/feed.xml" rel="self" type="application/rss+xml"/>
+    <language>en-us</language>
+    <description>Your daily 5-minute sports recap. Every morning, Marcus and Elena break down last night's biggest games, scores and storylines across the NFL, NBA, NHL, MLB, college sports, soccer and more, like two friends talking sports over coffee. New episodes every morning. Note: the hosts are AI-generated voices, and episodes are produced with AI tools and fact-checked against the day's results.</description>
+    <itunes:summary>Your daily 5-minute sports recap. Every morning, Marcus and Elena break down last night's biggest games, scores and storylines across the NFL, NBA, NHL, MLB, college sports, soccer and more, like two friends talking sports over coffee. New episodes every morning. Note: the hosts are AI-generated voices, and episodes are produced with AI tools and fact-checked against the day's results.</itunes:summary>
+    <itunes:author>Last Night On Sports</itunes:author>
+    <itunes:owner><itunes:name>Last Night On Sports</itunes:name><itunes:email>eudismatos@yahoo.es</itunes:email></itunes:owner>
+    <itunes:image href="https://codedecoder1.github.io/last-night-on-sports/art/cover.jpg"/>
+    <image><url>https://codedecoder1.github.io/last-night-on-sports/art/cover.jpg</url><title>Last Night On Sports</title><link>https://codedecoder1.github.io/last-night-on-sports/</link></image>
+    <itunes:category text="Sports"/>
+    <itunes:explicit>false</itunes:explicit>
+    <itunes:type>episodic</itunes:type>
+
+  </channel>
+</rss>

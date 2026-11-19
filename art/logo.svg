@@ -1,0 +1,82 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 3000 3000" width="3000" height="3000">
+  <defs>
+    <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#070B1F"/>
+      <stop offset="0.6" stop-color="#121A45"/>
+      <stop offset="1" stop-color="#2A1650"/>
+    </linearGradient>
+    <radialGradient id="glow" cx="0.5" cy="0.5" r="0.5">
+      <stop offset="0" stop-color="#FFB547" stop-opacity="0.55"/>
+      <stop offset="1" stop-color="#FFB547" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="gold" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#FFD36B"/>
+      <stop offset="1" stop-color="#FF9A1F"/>
+    </linearGradient>
+    <mask id="moonCut">
+      <rect width="3000" height="3000" fill="#fff"/>
+      <circle cx="2390" cy="520" r="230" fill="#000"/>
+    </mask>
+  </defs>
+
+  <!-- Night sky -->
+  <rect width="3000" height="3000" fill="url(#sky)"/>
+  <g fill="#fff">
+    <circle cx="380" cy="300" r="9" opacity=".9"/><circle cx="720" cy="520" r="6" opacity=".6"/>
+    <circle cx="1180" cy="260" r="8" opacity=".8"/><circle cx="1560" cy="470" r="5" opacity=".5"/>
+    <circle cx="1880" cy="230" r="7" opacity=".7"/><circle cx="560" cy="760" r="5" opacity=".5"/>
+    <circle cx="2700" cy="900" r="6" opacity=".6"/><circle cx="250" cy="1020" r="7" opacity=".6"/>
+    <circle cx="2050" cy="720" r="5" opacity=".5"/><circle cx="960" cy="860" r="4" opacity=".5"/>
+  </g>
+
+  <!-- Crescent moon -->
+  <circle cx="2280" cy="600" r="260" fill="#FFE7A8" mask="url(#moonCut)"/>
+
+  <!-- Stadium light glows -->
+  <circle cx="520" cy="2120" r="480" fill="url(#glow)"/>
+  <circle cx="2480" cy="2120" r="480" fill="url(#glow)"/>
+
+  <!-- Stadium light towers -->
+  <g fill="#0A0F2A">
+    <rect x="505" y="2110" width="30" height="530"/>
+    <rect x="2465" y="2110" width="30" height="530"/>
+  </g>
+  <g fill="#FFE7A8">
+    <rect x="440" y="2040" width="160" height="80" rx="14"/>
+    <rect x="2400" y="2040" width="160" height="80" rx="14"/>
+  </g>
+
+  <!-- NYC skyline -->
+  <path fill="#0A0F2A" d="
+    M0 2560 L0 2330 L140 2330 L140 2240 L260 2240 L260 2380 L360 2380 L360 2150 L470 2150 L470 2400
+    L620 2400 L620 2260 L700 2260 L700 2100 L760 2100 L760 2260 L840 2260 L840 2420
+    L960 2420 L960 2200 L1080 2200 L1080 2330 L1180 2330 L1180 2060 L1230 2030 L1250 2010 L1270 2030 L1320 2060 L1320 2350
+    L1440 2350 L1440 2180 L1560 2180 L1560 2380 L1660 2380 L1660 2000 L1700 1960 L1700 1990 L1720 1980 L1740 1990 L1740 1960 L1780 2000 L1780 2360
+    L1900 2360 L1900 2230 L2020 2230 L2020 2410 L2150 2410 L2150 2160 L2280 2160 L2280 2380
+    L2400 2380 L2400 2260 L2560 2260 L2560 2430 L2700 2430 L2700 2290 L2840 2290 L2840 2380 L3000 2380 L3000 2560 Z"/>
+  <g fill="#FFD36B" opacity=".75">
+    <rect x="390" y="2200" width="22" height="30"/><rect x="430" y="2260" width="22" height="30"/>
+    <rect x="1000" y="2250" width="22" height="30"/><rect x="1200" y="2120" width="22" height="30"/>
+    <rect x="1260" y="2200" width="22" height="30"/><rect x="1690" y="2060" width="22" height="30"/>
+    <rect x="1730" y="2150" width="22" height="30"/><rect x="2180" y="2210" width="22" height="30"/>
+    <rect x="2230" y="2280" width="22" height="30"/><rect x="2440" y="2310" width="22" height="30"/>
+  </g>
+
+  <!-- Field / ground band -->
+  <rect y="2560" width="3000" height="440" fill="#0E3B2E"/>
+  <g stroke="#FFFFFF" stroke-opacity=".18" stroke-width="10">
+    <line x1="0" y1="2640" x2="3000" y2="2640"/>
+    <line x1="0" y1="2930" x2="3000" y2="2930"/>
+  </g>
+
+  <!-- Title -->
+  <g font-family="'Arial Black','Impact','Helvetica Neue',Arial,sans-serif" font-weight="900" text-anchor="middle">
+    <text x="1500" y="1230" font-size="470" fill="url(#gold)" letter-spacing="10">LAST</text>
+    <text x="1500" y="1660" font-size="470" fill="url(#gold)" letter-spacing="10">NIGHT</text>
+    <text x="1500" y="1950" font-size="210" fill="#FFFFFF" letter-spacing="40">ON SPORTS</text>
+  </g>
+
+  <!-- Tagline -->
+  <text x="1500" y="2840" font-family="'Arial','Helvetica Neue',sans-serif" font-weight="700" font-size="104"
+        fill="#FFFFFF" text-anchor="middle" letter-spacing="14">YOUR DAILY 5-MIN SPORTS RECAP</text>
+</svg>
