@@ -32,6 +32,7 @@ jobs:
           python -u episode.py ${{ inputs.date }}
       - name: Convert to MP3
         run: |
+          sudo apt-get update -qq && sudo apt-get install -y -qq ffmpeg >/dev/null
           for f in episodes/*.wav; do
             ffmpeg -y -loglevel error -i "$f" -codec:a libmp3lame -b:a 96k "${f%.wav}.mp3"
           done

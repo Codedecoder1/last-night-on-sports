@@ -1,0 +1,3 @@
+# Producer notes: things the hosts MUST mention on a given air date (the morning the episode comes out).
+# Format:  YYYY-MM-DD | what to say (facts only, double-check before adding)
+2026-11-19 | Grand Theft Auto VI (GTA 6) comes out today, November 19, 2026, on PlayStation 5 and Xbox Series X|S. Big day for gamers, even sports fans.

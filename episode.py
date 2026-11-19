@@ -55,6 +55,20 @@ def claude(prompt, system="", search=False, max_tokens=20000):
     return "".join(b.get("text", "") for b in r["content"] if b["type"] == "text").strip()
 
 
+def producer_notes(air_date):
+    """Lines in notes.txt like '2026-11-19 | Grand Theft Auto VI comes out today' for that air date."""
+    path = os.path.join(HERE, "notes.txt")
+    if not os.path.exists(path):
+        return []
+    out = []
+    for line in open(path, encoding="utf-8"):
+        if "|" in line and not line.lstrip().startswith("#"):
+            d, note = line.split("|", 1)
+            if d.strip() == air_date.isoformat():
+                out.append(note.strip())
+    return out
+
+
 def research(day):
     print(f"1/4 Researching sports + NY news for {day:%A %B %d, %Y}...")
     return claude(
@@ -68,7 +82,12 @@ def research(day):
 2. NEW YORK: today's NYC weather forecast and 1-2 big local news items.
 3. TOMORROW: notable games scheduled for the next day.
 
+DATE CHECK (critical): only use results from games played on {day:%B %d, %Y}, the {day.year} season/year.
+Ignore articles from the same day in other years, and older or newer games. If a source's date is unclear,
+leave the result out. "Tomorrow" means {day + dt.timedelta(days=1):%A, %B %d, %Y}.
+
 Output a plain list of short, verified facts. Exact scores, full player names, stat lines.
+Start every sports fact with the game date in YYYY-MM-DD form.
 Mark anything you could not confirm with [UNCONFIRMED]. Do not write commentary.""",
         search=True, max_tokens=16000)
 
@@ -83,8 +102,15 @@ def write_script(day, facts):
         travel = (f"It's Monday: OPEN with ~1 minute where {teller} tells a short, vivid, invented story "
                   f"about their weekend trip (fits their persona), with the other host reacting.\n")
     personas = "\n".join(f"- {n}: {p}" for n, (_, p) in HOSTS.items())
+    air = day + dt.timedelta(days=1)
+    notes = producer_notes(air)
+    must = ""
+    if notes:
+        must = ("- MUST MENTION naturally somewhere in the episode (verified by the producer):\n"
+                + "\n".join(f"  * {n}" for n in notes) + "\n")
     return claude(
         f"""Write today's episode of "Last Night on Sports", a 5-minute daily sports podcast for listeners across the US.
+Today (air date) is {air:%A, %B %d, %Y}. "Last night" means {day:%A, %B %d, %Y}. Only talk about games from last night.
 
 Hosts (AI characters, friends who live in NYC):
 {personas}
@@ -95,7 +121,7 @@ Structure:
 - Close (~30 seconds): tease tomorrow's games, sign off.
 
 Rules:
-- Use ONLY the facts below. Never invent scores, stats, quotes, or results. Skip anything marked [UNCONFIRMED].
+{must}- Use ONLY the facts below. Never invent scores, stats, quotes, or results. Skip anything marked [UNCONFIRMED].
 - Exactly 650-750 words of dialogue (that's 5 minutes spoken).
 - Sound like two friends over coffee, not newsreaders. Short lines, interruptions, laughs written as (laughs).
 - Write numbers how people say them ("one-oh-eight to one-oh-two" is fine, or "108 to 102").
@@ -165,6 +191,9 @@ if __name__ == "__main__":
     os.makedirs(os.path.join(HERE, "episodes"), exist_ok=True)
     base = os.path.join(HERE, "episodes", f"{day + dt.timedelta(days=1)}")
     facts = research(day) + "\n\nNYC WEATHER FORECAST (National Weather Service, for this morning): " + nyc_weather()
+    notes = producer_notes(day + dt.timedelta(days=1))
+    if notes:
+        facts += "\n\nPRODUCER NOTES (verified, keep in the script):\n" + "\n".join(f"- {n}" for n in notes)
     open(base + "_facts.txt", "w", encoding="utf-8").write(facts)
     script, meta = fact_check(write_script(day, facts), facts)
     open(base + "_script.txt", "w", encoding="utf-8").write(script)
