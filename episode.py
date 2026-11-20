@@ -14,7 +14,7 @@ for line in open(os.path.join(HERE, ".env"), encoding="utf-8-sig"):
 CLAUDE_MODEL = "claude-sonnet-5-5"
 TTS_MODEL = "gemini-2.5-flash-preview-tts"
 HOSTS = {  # name -> (Gemini voice, persona)
-    "Marcus": ("Puck", "single, travels solo, big basketball and football fan, quick jokes"),
+    "Marcus": ("Charon", "single, travels solo, big basketball and football fan, quick jokes"),
     "Elena": ("Aoede", "married with two kids in Brooklyn, sharp analyst, loves baseball and soccer, teases Marcus"),
 }
 H1, H2 = list(HOSTS)
@@ -174,7 +174,7 @@ def speak(script, out_path):
     voices = [{"speaker": n, "voiceConfig": {"prebuiltVoiceConfig": {"voiceName": v}}} for n, (v, _) in HOSTS.items()]
     pcm = b""
     for i, c in enumerate(chunks, 1):
-        text = ("Read this as a lively, warm morning sports show between two friends in New York. "
+        text = ("Read this as a lively, warm morning sports show between two friends in New York. Marcus has a deep, confident, manly sports-radio voice; Elena is warm and sharp. "
                 "Natural pace, real reactions.\n\n" + "\n".join(c))
         r = http_json(f"https://generativelanguage.googleapis.com/v1beta/models/{TTS_MODEL}:generateContent",
                       {"contents": [{"parts": [{"text": text}]}],
