@@ -21,11 +21,13 @@ H1, H2 = list(HOSTS)
 LAUNCH_MONDAY = dt.date(2026, 11, 16)  # week 1 -> Marcus tells the travel story
 
 
-def http_json(url, body, headers, timeout=600):
+def http_json(url, body, headers, timeout=600, fatal=True):
     req = urllib.request.Request(url, json.dumps(body).encode(), {"Content-Type": "application/json", **headers})
     try:
         return json.load(urllib.request.urlopen(req, timeout=timeout))
     except urllib.error.HTTPError as e:
+        if not fatal:
+            raise
         sys.exit(f"HTTP {e.code} from {url.split('/')[2]}: {e.read().decode()[:800]}")
 
 
@@ -127,7 +129,7 @@ Rules:
 {must}- Use ONLY the facts below. Never invent scores, stats, quotes, or results. Skip anything marked [UNCONFIRMED].
 - Length follows the news: about 450-750 words (3-5 minutes). Busy night = longer; quiet night = shorter. Never pad or repeat to fill time.
 - Sound like two friends over coffee, not newsreaders. Short lines, interruptions, laughs written as (laughs).
-- Write numbers how people say them ("one-oh-eight to one-oh-two" is fine, or "108 to 102").
+- Write ALL numbers, scores, times and percentages out in words, exactly as spoken ("one-oh-eight to one-oh-two", "seventy percent", "one p.m.", "thirty-one points"). No digits, no symbols like % or & (the voice engine skips them).
 - Output ONLY dialogue lines in the form "{H1}: ..." / "{H2}: ...". No titles, no stage directions on their own line.
 
 FACTS:
@@ -161,29 +163,59 @@ SCRIPT:
     return (fixed.group(1).strip() if fixed else script), meta
 
 
+def audio_coverage(pcm, lines, key):
+    """Gemini listens to the audio; returns the share of script words found in its transcript."""
+    import io
+    buf = io.BytesIO()
+    with wave.open(buf, "wb") as w:
+        w.setnchannels(1); w.setsampwidth(2); w.setframerate(24000); w.writeframes(pcm)
+    try:
+        r = http_json("https://generativelanguage.googleapis.com/v1beta/models/gemini-flash-latest:generateContent",
+                      {"contents": [{"parts": [
+                          {"inlineData": {"mimeType": "audio/wav", "data": base64.b64encode(buf.getvalue()).decode()}},
+                          {"text": "Transcribe this audio word for word. Output only the transcript."}]}]},
+                      key, timeout=180, fatal=False)
+        heard = r["candidates"][0]["content"]["parts"][0]["text"]
+    except Exception as ex:
+        print("   (check skipped:", ex, ")")
+        return 1.0  # never block the episode because the checker failed
+    norm = lambda s: re.findall(r"[a-z0-9]+", s.lower())
+    said = " ".join(re.sub(rf"^({H1}|{H2}):", "", l) for l in lines)
+    want, got = norm(re.sub(r"\(.*?\)", "", said)), set(norm(heard))
+    return sum(w in got for w in want) / max(1, len(want))
+
+
 def speak(script, out_path):
     print("4/4 Recording voices...")
     lines = [l.strip() for l in script.splitlines() if re.match(rf"^({H1}|{H2}):", l.strip())]
     chunks, cur = [], []
-    for l in lines:  # ~2.5 minutes per TTS call (2 calls per episode) keeps each request well under the model's output limit
+    for l in lines:  # ~1 minute per TTS call: shorter pieces get cut off less often
         cur.append(l)
-        if sum(len(x) for x in cur) > 2600:
+        if sum(len(x) for x in cur) > 1100:
             chunks.append(cur); cur = []
     if cur:
         chunks.append(cur)
     voices = [{"speaker": n, "voiceConfig": {"prebuiltVoiceConfig": {"voiceName": v}}} for n, (v, _) in HOSTS.items()]
+    key = {"x-goog-api-key": os.environ["GEMINI_API_KEY"]}
     pcm = b""
     for i, c in enumerate(chunks, 1):
         text = ("Read this as a lively, warm morning sports show between two friends in New York. Marcus has a deep, confident, manly sports-radio voice; Elena is warm and sharp. "
-                "Natural pace, real reactions.\n\n" + "\n".join(c))
-        r = http_json(f"https://generativelanguage.googleapis.com/v1beta/models/{TTS_MODEL}:generateContent",
-                      {"contents": [{"parts": [{"text": text}]}],
-                       "generationConfig": {"responseModalities": ["AUDIO"],
-                                            "speechConfig": {"multiSpeakerVoiceConfig": {"speakerVoiceConfigs": voices}}}},
-                      {"x-goog-api-key": os.environ["GEMINI_API_KEY"]})
-        pcm += base64.b64decode(r["candidates"][0]["content"]["parts"][0]["inlineData"]["data"])
-        pcm += b"\x00" * 24000  # 0.5 s pause between chunks
-        print(f"   part {i}/{len(chunks)} done")
+                "Natural pace, real reactions. Read every word completely.\n\n" + "\n".join(c))
+        best, best_score = None, -1
+        for attempt in range(1, 4):  # up to 3 tries if words are missing
+            r = http_json(f"https://generativelanguage.googleapis.com/v1beta/models/{TTS_MODEL}:generateContent",
+                          {"contents": [{"parts": [{"text": text}]}],
+                           "generationConfig": {"responseModalities": ["AUDIO"],
+                                                "speechConfig": {"multiSpeakerVoiceConfig": {"speakerVoiceConfigs": voices}}}},
+                          key)
+            audio = base64.b64decode(r["candidates"][0]["content"]["parts"][0]["inlineData"]["data"])
+            score = audio_coverage(audio, c, key)
+            print(f"   part {i}/{len(chunks)} try {attempt}: {score:.0%} of words heard")
+            if score > best_score:
+                best, best_score = audio, score
+            if score >= 0.95:
+                break
+        pcm += best + b"\x00" * 24000  # 0.5 s pause between chunks
     with wave.open(out_path, "wb") as w:
         w.setnchannels(1); w.setsampwidth(2); w.setframerate(24000); w.writeframes(pcm)
     return len(pcm) / 48000
