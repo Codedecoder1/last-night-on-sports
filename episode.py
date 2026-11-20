@@ -125,7 +125,7 @@ Structure:
 
 Rules:
 {must}- Use ONLY the facts below. Never invent scores, stats, quotes, or results. Skip anything marked [UNCONFIRMED].
-- Exactly 650-750 words of dialogue (that's 5 minutes spoken).
+- Length follows the news: about 450-750 words (3-5 minutes). Busy night = longer; quiet night = shorter. Never pad or repeat to fill time.
 - Sound like two friends over coffee, not newsreaders. Short lines, interruptions, laughs written as (laughs).
 - Write numbers how people say them ("one-oh-eight to one-oh-two" is fine, or "108 to 102").
 - Output ONLY dialogue lines in the form "{H1}: ..." / "{H2}: ...". No titles, no stage directions on their own line.
