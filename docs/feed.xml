@@ -2,22 +2,23 @@
 <rss version="2.0" xmlns:itunes="http://www.itunes.com/dtds/podcast-1.0.dtd" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Last Night On Sports</title>
-    <link>https://codedecoder1.github.io/last-night-on-sports/</link>
-    <atom:link href="https://codedecoder1.github.io/last-night-on-sports/feed.xml" rel="self" type="application/rss+xml"/>
+    <link>https://last-night-on-sports.eudismatos.workers.dev/</link>
+    <atom:link href="https://last-night-on-sports.eudismatos.workers.dev/feed.xml" rel="self" type="application/rss+xml"/>
     <language>en-us</language>
     <description>Your daily 5-minute sports recap. Every morning, Marcus and Elena break down last night's biggest games, scores and storylines across the NFL, NBA, NHL, MLB, college sports, soccer and more, like two friends talking sports over coffee. New episodes every morning. Note: the hosts are AI-generated voices, and episodes are produced with AI tools and fact-checked against the day's results.</description>
     <itunes:summary>Your daily 5-minute sports recap. Every morning, Marcus and Elena break down last night's biggest games, scores and storylines across the NFL, NBA, NHL, MLB, college sports, soccer and more, like two friends talking sports over coffee. New episodes every morning. Note: the hosts are AI-generated voices, and episodes are produced with AI tools and fact-checked against the day's results.</itunes:summary>
     <itunes:author>Last Night On Sports</itunes:author>
     <itunes:owner><itunes:name>Last Night On Sports</itunes:name><itunes:email>eudismatos@yahoo.es</itunes:email></itunes:owner>
-    <itunes:image href="https://codedecoder1.github.io/last-night-on-sports/art/cover.jpg"/>
-    <image><url>https://codedecoder1.github.io/last-night-on-sports/art/cover.jpg</url><title>Last Night On Sports</title><link>https://codedecoder1.github.io/last-night-on-sports/</link></image>
+    <itunes:image href="https://last-night-on-sports.eudismatos.workers.dev/art/cover.jpg"/>
+    <image><url>https://last-night-on-sports.eudismatos.workers.dev/art/cover.jpg</url><title>Last Night On Sports</title><link>https://last-night-on-sports.eudismatos.workers.dev/</link></image>
     <itunes:category text="Sports"/>
     <itunes:explicit>false</itunes:explicit>
     <itunes:type>episodic</itunes:type>
+    <itunes:new-feed-url>https://last-night-on-sports.eudismatos.workers.dev/feed.xml</itunes:new-feed-url>
     <item>
       <title>Last Night On Sports 11/21/26: Shai Rallies Thunder Past Pelicans</title>
       <description>Shai Gilgeous-Alexander's 40 points led Oklahoma City back from 16 down to beat New Orleans, plus Nuggets, Grizzlies, Suns and Nets results and Friday's college football scores. We also preview Sunday's Jets, Giants and Vikings games and give the New York weather. Hosts are AI-generated voices.</description>
-      <enclosure url="https://codedecoder1.github.io/last-night-on-sports/episodes/2026-11-21.mp3" length="2734604" type="audio/mpeg"/>
+      <enclosure url="https://last-night-on-sports.eudismatos.workers.dev/episodes/2026-11-21.mp3" length="2734604" type="audio/mpeg"/>
       <guid isPermaLink="false">lnos-2026-11-21</guid>
       <pubDate>Sat, 21 Nov 2026 10:30:00 +0000</pubDate>
       <itunes:duration>3:47</itunes:duration>
@@ -27,7 +28,7 @@
     <item>
       <title>Last Night On Sports 11/20/26: Knicks Hold Off Timberwolves in Minnesota</title>
       <description>The Knicks beat the Timberwolves 102-99 behind Karl-Anthony Towns' 15th straight double-double, and the Texans routed the Colts 26-3 on Thursday Night Football. Also covered are Lane Hutson's overtime winner for Montreal, the Islanders' OT loss in Winnipeg, the end of McDavid's 23-game point streak, college hoops results, and tonight's slate. Hosts are AI-generated voices.</description>
-      <enclosure url="https://codedecoder1.github.io/last-night-on-sports/episodes/2026-11-20.mp3" length="2624588" type="audio/mpeg"/>
+      <enclosure url="https://last-night-on-sports.eudismatos.workers.dev/episodes/2026-11-20.mp3" length="2624588" type="audio/mpeg"/>
       <guid isPermaLink="false">lnos-2026-11-20</guid>
       <pubDate>Fri, 20 Nov 2026 10:30:00 +0000</pubDate>
       <itunes:duration>3:38</itunes:duration>
@@ -37,7 +38,7 @@
     <item>
       <title>Last Night On Sports 11/19/26: Houston Stuns Top-Ranked Florida</title>
       <description>No. 8 Houston upset No. 1 Florida 86-76 in Las Vegas, and No. 12 Arizona beat No. 3 UConn. The episode also covers the Jazz's upset of the Lakers, the 76ers' 13-3 start, Alcaraz and Tiafoe at the ATP Finals, Canadiens-Devils, and tonight's Colts-Texans Thursday Night Football. It also touches on Drake Maye's injury and GTA 6's release day. Hosts are AI-generated voices.</description>
-      <enclosure url="https://codedecoder1.github.io/last-night-on-sports/episodes/2026-11-19.mp3" length="2745836" type="audio/mpeg"/>
+      <enclosure url="https://last-night-on-sports.eudismatos.workers.dev/episodes/2026-11-19.mp3" length="2745836" type="audio/mpeg"/>
       <guid isPermaLink="false">lnos-2026-11-19</guid>
       <pubDate>Thu, 19 Nov 2026 10:30:00 +0000</pubDate>
       <itunes:duration>3:48</itunes:duration>

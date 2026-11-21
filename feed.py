@@ -4,7 +4,7 @@ from email.utils import format_datetime
 from xml.sax.saxutils import escape
 
 HERE = os.path.dirname(os.path.abspath(__file__))
-SITE = "https://codedecoder1.github.io/last-night-on-sports"
+SITE = "https://last-night-on-sports.eudismatos.workers.dev"
 TITLE = "Last Night On Sports"
 EMAIL = "eudismatos@yahoo.es"
 AUTHOR = "Last Night On Sports"
@@ -68,6 +68,7 @@ def build():
     <itunes:category text="Sports"/>
     <itunes:explicit>false</itunes:explicit>
     <itunes:type>episodic</itunes:type>
+    <itunes:new-feed-url>{SITE}/feed.xml</itunes:new-feed-url>
 {items}
   </channel>
 </rss>
