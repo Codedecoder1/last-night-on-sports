@@ -33,7 +33,7 @@ jobs:
       - name: Skip if today's episode already exists
         id: check
         run: |
-          if [ -z "${{ inputs.date }}" ] && [ -f "episodes/$(date -u +%F).mp3" ]; then
+          if [ -z "${{ inputs.date }}" ] && [ -f "docs/episodes/$(date -u +%F).mp3" ]; then
             echo "Episode for $(date -u +%F) already published - skipping (no cost)."
             echo "skip=true" >> "$GITHUB_OUTPUT"
           fi
@@ -50,7 +50,7 @@ jobs:
         run: |
           sudo apt-get update -qq && sudo apt-get install -y -qq ffmpeg >/dev/null
           for f in episodes/*.wav; do
-            ffmpeg -y -loglevel error -i "$f" -codec:a libmp3lame -b:a 96k "${f%.wav}.mp3"
+            ffmpeg -y -loglevel error -i "$f" -codec:a libmp3lame -b:a 96k "docs/episodes/$(basename "${f%.wav}").mp3"
           done
       - name: Update podcast feed
         if: steps.check.outputs.skip != 'true'
@@ -60,7 +60,7 @@ jobs:
         run: |
           git config user.name "Last Night on Sports bot"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add episodes/*.mp3 episodes/*.txt episodes/*.json feed.xml
+          git add docs/episodes/*.mp3 episodes/*.txt episodes/*.json docs/feed.xml
           git commit -m "Episode $(date -u +%F)" || echo "nothing new"
           git pull --rebase -q origin main
           git push

@@ -28,8 +28,9 @@ def item(mp3):
     date = os.path.basename(mp3)[:10]  # YYYY-MM-DD (the morning it airs)
     d = dt.date.fromisoformat(date)
     meta = {}
-    if os.path.exists(mp3[:-4] + "_meta.json"):
-        meta = json.load(open(mp3[:-4] + "_meta.json", encoding="utf-8"))
+    meta_path = os.path.join(HERE, "episodes", date + "_meta.json")  # private notes, not published
+    if os.path.exists(meta_path):
+        meta = json.load(open(meta_path, encoding="utf-8"))
     title = f"{TITLE} {d.month}/{d.day}/{d:%y}"
     if meta.get("headline"):
         title += f": {meta['headline']}"
@@ -49,7 +50,7 @@ def item(mp3):
 
 
 def build():
-    mp3s = sorted(glob.glob(os.path.join(HERE, "episodes", "*.mp3")), reverse=True)
+    mp3s = sorted(glob.glob(os.path.join(HERE, "docs", "episodes", "*.mp3")), reverse=True)
     items = "\n".join(item(m) for m in mp3s)
     xml = f"""<?xml version="1.0" encoding="UTF-8"?>
 <rss version="2.0" xmlns:itunes="http://www.itunes.com/dtds/podcast-1.0.dtd" xmlns:atom="http://www.w3.org/2005/Atom">
@@ -71,7 +72,7 @@ def build():
   </channel>
 </rss>
 """
-    open(os.path.join(HERE, "feed.xml"), "w", encoding="utf-8").write(xml)
+    open(os.path.join(HERE, "docs", "feed.xml"), "w", encoding="utf-8").write(xml)
     print(f"feed.xml written with {len(mp3s)} episode(s)")
 
 
