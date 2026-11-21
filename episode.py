@@ -173,7 +173,7 @@ def audio_coverage(pcm, lines, key):
         r = http_json("https://generativelanguage.googleapis.com/v1beta/models/gemini-flash-latest:generateContent",
                       {"contents": [{"parts": [
                           {"inlineData": {"mimeType": "audio/wav", "data": base64.b64encode(buf.getvalue()).decode()}},
-                          {"text": "Transcribe this audio word for word. Output only the transcript."}]}]},
+                          {"text": "Transcribe this audio word for word. Write every number as words exactly as spoken (e.g. one-oh-eight, seventy percent, one p.m.), never digits. Output only the transcript."}]}]},
                       key, timeout=180, fatal=False)
         heard = r["candidates"][0]["content"]["parts"][0]["text"]
     except Exception as ex:

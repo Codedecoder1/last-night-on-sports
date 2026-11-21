@@ -8,3 +8,5 @@ DECISION.md
 INSTRUCTIONS.md
 PLAN_*.md
 voice_samples/
+scheduler/node_modules/
+scheduler/.wrangler/

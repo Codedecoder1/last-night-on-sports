@@ -1,0 +1,8 @@
+name = "lnos-scheduler"
+main = "worker.js"
+compatibility_date = "2026-11-01"
+workers_dev = false
+
+[triggers]
+# 09:15 UTC = 1:15 AM Pacific (winter). 10:15 UTC = backup.
+crons = ["15 9 * * *", "15 10 * * *"]
